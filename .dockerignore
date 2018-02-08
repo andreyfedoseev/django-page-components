@@ -1,0 +1,9 @@
+*
+!src
+!tests
+!apps
+!requirements*.txt
+!setup.py
+!README.rst
+!CHANGES.rst
+!MANIFEST.in

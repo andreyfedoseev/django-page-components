@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% spaceless %}
+<html>
+<head>
+{{ view.media.css.render }}
+</head>
+<body>
+{% block content %}{% endblock %}
+{{ view.media.js.render }}
+</body>
+</html>
+{% endspaceless %}
