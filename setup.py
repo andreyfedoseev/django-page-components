@@ -66,10 +66,11 @@ setup(
     name="django-page-components",
     packages=find_packages("src"),
     package_dir={"": "src"},
+    version=version,
     author="Andrey Fedoseev",
     author_email="andrey.fedoseev@gmail.com",
     url="https://github.com/andreyfedoseev/django-page-components",
-    description="TODO",
+    description="Mini-framework for creating re-usable UI components for Django",
     long_description="\n\n".join([README, CHANGES]),
     classifiers=[
         'Development Status :: 4 - Beta',
