@@ -3,6 +3,7 @@ import abc
 import asset_definitions
 import django.core.exceptions
 import django.forms
+import django.http
 import django.template.loader
 import django.utils.encoding
 import django.utils.six
@@ -14,6 +15,8 @@ TemplateContext = Dict[str, Any]
 __all__ = (
     "PageComponent",
     "TemplatePageComponent",
+    "GlobalPageComponent",
+    "GlobalTemplatePageComponent",
 )
 
 
@@ -32,8 +35,14 @@ class PageComponent(django.utils.six.with_metaclass(
         return self.render()
 
 
-class TemplatePageComponent(PageComponent):
+class GlobalPageComponent(PageComponent):
 
+    def __init__(self, request):
+        # type: (django.http.HttpRequest) -> None
+        self.request = request
+
+
+class TemplatePageComponentMixin(PageComponent):
     template_name = None
 
     def render(self):
@@ -54,3 +63,17 @@ class TemplatePageComponent(PageComponent):
         # type: () -> TemplateContext
         context_data = dict(kwargs)
         return context_data
+
+
+class TemplatePageComponent(
+    TemplatePageComponentMixin,
+    PageComponent
+):
+    pass
+
+
+class GlobalTemplatePageComponent(
+    TemplatePageComponentMixin,
+    GlobalPageComponent
+):
+    pass

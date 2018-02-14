@@ -63,6 +63,7 @@ Now, when we have some page components defined it is time to use them in views:
 
 .. code-block:: python
 
+    import collections
     import django.views.generic
     import page_components
 
@@ -78,9 +79,11 @@ Now, when we have some page components defined it is time to use them in views:
         template_name = "product.html"
 
         def get_page_components(self):
-            return {
-                "add_to_cart_button": myapp.page_components.AddToCartButton(self.object)
-            }
+            # OrderedDict is highly recommended on Python 3.5 or less to maintain
+            # consistent order of components' media files
+            return collections.OrderedDict((
+                ("add_to_cart_button", myapp.page_components.AddToCartButton(self.object)),
+            ))
 
 
 and templates:
@@ -105,3 +108,87 @@ Note that page components are placed to ``page_components`` namespace in templat
 that namespace on per-view basis by adding ``page_components_context_name`` attribute to a view class, or globally with
 ``PAGE_COMPONENTS_CONTEXT_NAME`` setting. If you set ``page_components_context_name`` to ``None`` it will disable
 the namespace entirely.
+
+Global Page Components
+======================
+
+Global page components are always present in template context, there's no need to create them in a view.
+
+1. Add the global page components context processor:
+
+.. code-block:: python
+
+  # settings.py
+  TEMPLATES = {
+      # ...
+      "OPTIONS": {
+          "context_processors": (
+              # ...
+              "page_components.context_processors.global_page_components",
+          )
+      }
+  }
+
+2. Define a global page component like so:
+
+.. code-block:: python
+
+  # myapp/page_components.py
+
+  import page_components
+
+  class Header(page_components.GlobalTemplatePageComponent):
+
+      template_name = "header.html"
+
+      class Media:
+          js = (
+              "header.js",
+          )
+          css = {
+              "all": (
+                  "header.css",
+              )
+          }
+
+3. Declare a global page component:
+
+.. code-block:: python
+
+  # settings.py
+  import collections
+
+  GLOBAL_PAGE_COMPONENTS = collections.OrderedDict((
+      ("header", "myapp.page_components.Header"),
+  ))
+
+As with local page components, it is highly recommended to use an ``OrderedDict`` here if you're using
+Python 3.5 or less to maintain consistent order of components' media files.
+
+4. Use in a template:
+
+.. code-block:: html
+
+  <html>
+    <head>
+      {{ global_page_components_media.css.render }}
+      {{ view.media.css.render }}
+    </head>
+    <body>
+      {{ global_page_components.header }}
+
+      {{ global_page_components_media.js.render }}
+      {{ view.media.js.render }}
+    </body>
+  </html>
+
+You can change the template context namespace for global page components with ``GLOBAL_PAGE_COMPONENTS_CONTEXT_NAME``
+setting (by default it's ``global_page_components``). Set it to ``None`` to remove the namespace.
+
+Suppose you have a page where you need to display a custom header. There are two ways to to override global page
+components for a specific page:
+
+1. ``{{ page_components.header|default:global_page_components.header }}``
+
+2. Set both ``GLOBAL_PAGE_COMPONENTS_CONTEXT_NAME`` and ``PAGE_COMPONENTS_CONTEXT_NAME`` to ``None`` to add both global
+and local page components into one (empty) namespace: ``{{ header }}``

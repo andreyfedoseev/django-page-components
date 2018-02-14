@@ -2,7 +2,7 @@ import asset_definitions
 import django.conf
 from typing import *  # noqa
 
-from . import page_component  # noqa
+from . import page_component, utils  # noqa
 
 NOT_SPECIFIED = object()
 
@@ -22,14 +22,20 @@ class PageComponentsView(asset_definitions.MediaDefiningView):
             kwargs[page_components_context_name] = self.get_page_components()
         else:
             kwargs.update(self.get_page_components())
+        kwargs["global_page_components_media"] = None
         # noinspection PyUnresolvedReferences
         return super(PageComponentsView, self).get_context_data(**kwargs)
 
     def get_media(self):
         media = super(PageComponentsView, self).get_media()
-        # noinspection PyShadowingNames
-        for page_component in self.get_page_components().values():
-            media += page_component.media
+
+        # noinspection PyUnresolvedReferences
+        for component in utils.get_global_page_components(self.request).values():
+            media += component.media
+
+        for component in self.get_page_components().values():
+            media += component.media
+
         return media
 
     def get_page_components(self):
