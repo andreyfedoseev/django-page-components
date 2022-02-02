@@ -1,7 +1,8 @@
-from django.conf import settings
-import django
-import sys
 import os
+import sys
+
+import django
+from django.conf import settings
 
 
 def pytest_configure():
@@ -11,17 +12,15 @@ def pytest_configure():
     settings.configure(
         DEBUG=True,
         STATIC_URL="/static/",
-        INSTALLED_APPS=(
-            "app",
-        ),
+        INSTALLED_APPS=("app",),
         TEMPLATES=[
             {
-                "BACKEND": 'django.template.backends.django.DjangoTemplates',
+                "BACKEND": "django.template.backends.django.DjangoTemplates",
                 "APP_DIRS": True,
                 "OPTIONS": {
                     "debug": True,
                 },
             },
-        ]
+        ],
     )
     django.setup()

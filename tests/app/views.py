@@ -6,7 +6,9 @@ import app.page_components
 import page_components
 
 
-class DisplayArticleView(page_components.PageComponentsView, django.views.generic.TemplateView):
+class DisplayArticleView(
+    page_components.PageComponentsView, django.views.generic.TemplateView
+):
 
     article = None
 

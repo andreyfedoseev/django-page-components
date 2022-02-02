@@ -1,15 +1,14 @@
+from typing import *  # noqa
+
 import asset_definitions
 import django.conf
-from typing import *  # noqa
 
 from . import page_component  # noqa
 
 NOT_SPECIFIED = object()
 
 
-__all__ = (
-    "PageComponentsView",
-)
+__all__ = ("PageComponentsView",)
 
 
 class PageComponentsView(asset_definitions.MediaDefiningView):
@@ -38,5 +37,7 @@ class PageComponentsView(asset_definitions.MediaDefiningView):
 
     def get_page_components_context_name(self):
         if self.page_components_context_name is NOT_SPECIFIED:
-            return getattr(django.conf.settings, "PAGE_COMPONENTS_CONTEXT_NAME", "page_components")
+            return getattr(
+                django.conf.settings, "PAGE_COMPONENTS_CONTEXT_NAME", "page_components"
+            )
         return self.page_components_context_name
