@@ -1,18 +1,22 @@
 import django.utils.encoding
 import pytest
-import app.views
-import app.models
 
+import app.models
+import app.views
 
 NOT_SPECIFIED = object()
 
 
 @pytest.mark.parametrize(
-    "page_components_context_name,template_name", (
+    "page_components_context_name,template_name",
+    (
         (NOT_SPECIFIED, "display-article.html"),
         (None, "display-article-with-blank-namespace.html"),
-        ("custom_page_components_namespace", "display-article-with-custom-namespace.html"),
-    )
+        (
+            "custom_page_components_namespace",
+            "display-article-with-custom-namespace.html",
+        ),
+    ),
 )
 def test_page_component_view(page_components_context_name, template_name, rf):
 

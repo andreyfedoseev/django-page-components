@@ -11,7 +11,4 @@ def test_template_page_component():
 
     article_page_component = app.page_components.article.ArticlePageComponent(article)
 
-    assert article_page_component.render() == (
-        "<h1>Foo</h1>\n"
-        "<p>Bar</p>\n"
-    )
+    assert article_page_component.render() == ("<h1>Foo</h1>\n" "<p>Bar</p>\n")
