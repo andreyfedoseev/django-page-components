@@ -33,11 +33,11 @@ def test_page_component_view(page_components_context_name, template_name, rf):
     response = view_function(request)
     response.render()
 
-    assert django.utils.encoding.force_text(response.content) == (
+    assert django.utils.encoding.force_str(response.content) == (
         """<!DOCTYPE html>\n"""
         """<html>"""
         """<head>"""
-        """<link href="/static/article.css" type="text/css" media="all" rel="stylesheet" />"""
+        """<link href="/static/article.css" type="text/css" media="all" rel="stylesheet">"""
         """</head>"""
         """<body>"""
         """<h1>Foo</h1>"""

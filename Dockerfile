@@ -1,8 +1,13 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER Andrey Fedoseev <andrey.fedoseev@gmail.com>
-RUN apt-get update && apt-get install -y python2.7-dev python3.5-dev python-pip
+RUN apt-get update && \
+    apt-get install -y \
+    python3.6-dev \
+    python3.8-dev \
+    python3-pip
 RUN mkdir /app
 WORKDIR /app
+ADD requirements-*.txt /app/
+RUN pip3 install -r requirements-dev.txt
 ADD . /app/
-RUN pip install -r requirements-dev.txt
-RUN pip install -e .
+RUN pip3 install -e .

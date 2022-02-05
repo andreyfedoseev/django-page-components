@@ -1,4 +1,4 @@
-from typing import *  # noqa
+from typing import Dict, Optional
 
 import asset_definitions
 import django.conf
@@ -31,11 +31,10 @@ class PageComponentsView(asset_definitions.MediaDefiningView):
             media += page_component.media
         return media
 
-    def get_page_components(self):
-        # type: () -> Dict[str, page_component.PageComponent]
+    def get_page_components(self) -> Dict[str, page_component.PageComponent]:
         return {}
 
-    def get_page_components_context_name(self):
+    def get_page_components_context_name(self) -> Optional[str]:
         if self.page_components_context_name is NOT_SPECIFIED:
             return getattr(
                 django.conf.settings, "PAGE_COMPONENTS_CONTEXT_NAME", "page_components"
