@@ -2,10 +2,15 @@
 django-page-components
 ======================
 
+.. image:: https://github.com/andreyfedoseev/django-page-components/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/andreyfedoseev/django-page-components/actions/workflows/main.yml
+    :alt: Tests Status
+
+
 "Page component" is a unit of a user interface (think ReactJS components). ``django-page-components`` provide
 a minimalistic framework for creating page components and using them in your Django views and templates.
 
-To define a page component you need to create a sub-class of ``page_components.PageComponent``
+To define a page component, you need to create a sub-class of ``page_components.PageComponent``
 and implement ``render`` method like so:
 
 .. code-block:: python
@@ -37,7 +42,7 @@ and implement ``render`` method like so:
 
 
 You can also use a ``TemplatePageComponent`` base class to implement page components based on templates.
-In that case you may want to implement ``get_context_data`` method:
+In that case, you may want to implement ``get_context_data`` method:
 
 .. code-block:: python
 
@@ -59,7 +64,7 @@ A proposed convention is to store your page components classes in ``page_compone
 
     myapp.page_components.AddToCartButton
 
-Now, when we have some page components defined it is time to use them in views:
+Now, when we have some page components defined, it is time to use them in views:
 
 .. code-block:: python
 
@@ -102,6 +107,6 @@ and templates:
     </html>
 
 Note that page components are placed to ``page_components`` namespace in template context by default. You can change
-that namespace on per-view basis by adding ``page_components_context_name`` attribute to a view class, or globally with
-``PAGE_COMPONENTS_CONTEXT_NAME`` setting. If you set ``page_components_context_name`` to ``None`` it will disable
+that namespace on per-view basis by adding ``page_components_context_name`` attribute to a view class or globally with
+``PAGE_COMPONENTS_CONTEXT_NAME`` setting. If you set ``page_components_context_name`` to ``None``, it will disable
 the namespace entirely.
