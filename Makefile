@@ -8,7 +8,7 @@ test:
 	docker-compose run --rm app tox
 
 upload:
-	python setup.py sdist upload
+	python3 setup.py sdist upload
 
 check-flake8:
 	docker-compose run --rm app flake8 ./src ./tests
